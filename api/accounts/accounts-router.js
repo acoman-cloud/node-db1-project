@@ -21,7 +21,6 @@ router.get('/:id', checkAccountId, (req, res, next) => {
 })
 
 router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
-  // DO YOUR MAGIC
   Account.create({
       name: req.body.name.trim(),
       budget: req.body.budget,
@@ -32,10 +31,13 @@ router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) =
     .catch(next)
 })
 
-router.put('/:id', checkAccountId, checkAccountPayload, async(req, res, next) => {
-  // DO YOUR MAGIC
-  const updated = await Account.updateById(req.params.id, req.body)
+router.put('/:id', checkAccountId, checkAccountPayload, async (req, res, next) => {
+  try{
+    const updated = await Account.updateById(req.params.id, req.body)
     res.json(updated)
+  } catch(err){
+    next(err)
+  }
 });
 
 router.delete('/:id', checkAccountId, (req, res, next) => {
