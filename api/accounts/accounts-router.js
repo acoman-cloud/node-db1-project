@@ -29,12 +29,10 @@ router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) =
     .catch(next)
 })
 
-router.put('/:id', checkAccountId, checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
+router.put('/:id', checkAccountId, checkAccountPayload, async(req, res, next) => {
   // DO YOUR MAGIC
-  Account.updateById(req.body)
-    .then(esp=>{
-      res.status(200).json(esp)
-    })
+  const updated = await Account.updateById(req.params.id, req.body)
+    res.json(updated)
 });
 
 router.delete('/:id', checkAccountId, (req, res, next) => {
