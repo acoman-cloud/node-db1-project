@@ -22,7 +22,10 @@ router.get('/:id', checkAccountId, (req, res, next) => {
 
 router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
   // DO YOUR MAGIC
-  Account.create(req.body)
+  Account.create({
+      name: req.body.name.trim(),
+      budget: req.body.budget,
+    })
     .then(esp => {
       res.status(201).json(esp)
     })
